@@ -1,12 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const chats = require('./data');
-const db = require('./config/mongoose');
-const MongoStore = require('connect-mongo');
+const connectDB = require('./config/mongoose');
 const app = express();
 dotenv.config();
+connectDB();
 const port = process.env.PORT;
-
 app.get('/', (req, res) => {
     res.send("response sent");
 });
