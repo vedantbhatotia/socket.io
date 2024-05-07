@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const chats = require('./data');
+const db = require('./config/mongoose');
+const MongoStore = require('connect-mongo');
 const app = express();
 dotenv.config();
 const port = process.env.PORT;
