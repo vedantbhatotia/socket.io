@@ -1,8 +1,15 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/UserModel');
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config(); 
+const secret = process.env.secret
+function generateToken(userId){
+    return jwt.sign({userId},secret,{
+        expiresIn:"30d"
+    })
+}
 const registerUser = asyncHandler(async (req,res)=>{
-    const [name,email,password,picture] = req.body;
+    const [name,email,password,pic] = req.body;
     if (!name || !email || !password) {
         res.status(400);
         throw new Error("Please Enter all the Feilds");
@@ -25,6 +32,7 @@ const registerUser = asyncHandler(async (req,res)=>{
         email: user.email,
         isAdmin: user.isAdmin,
         pic: user.pic,
+        token:generateToken(user._id)
         });
     } else {
         res.status(400);
