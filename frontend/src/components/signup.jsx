@@ -51,7 +51,7 @@ const Signup = () => {
           isClosable: true,
           position: "bottom"
         });
-        localStorage.setItem("userInfo", userData);
+        localStorage.setItem("userInfo", userDataString);
         setPicLoading(false);
         history("/chats");
       } catch (err) {
