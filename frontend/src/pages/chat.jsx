@@ -1,30 +1,33 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { ChatState } from "../context/chatProvider";
+import SideDrawer from "../components/sidedrawer";
+import MyChats from "../components/mychats";
+import { Box } from "@chakra-ui/react";
+import Chatbox from "../components/chatbox";
 
 const Chat = () => {
-    const [chats, setChats] = useState([]);
-
-    const fetchChats = async () => {
-        try {
-            const response = await axios.get("/api/chat");
-            setChats(response.data);
-        } catch (error) {
-            console.error("Error fetching chats:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchChats();
-    }, []);
-
+    const { user } = ChatState();
     return (
-        <>
-            <div>
-                {chats.map(chat => (
-                    <div key={chat._id}>{chat.chatName}</div>
-                ))}
-            </div>
-        </>
+        <div style={{ width: "100%" }}>
+            {user && <SideDrawer />}
+            <Box 
+                display="flex" 
+                justifyContent="space-between" // Adjusted justifyContent
+                width="100%" 
+                height="91.5vh" 
+                padding="10px"
+            >
+                {user && (
+                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure MyChats stays on extreme left */}
+                        <MyChats />
+                    </Box>
+                )}
+                {user && (
+                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure Chatbox stays on extreme right */}
+                        <Chatbox />
+                    </Box>
+                )}
+            </Box>
+        </div>
     );
 };
 

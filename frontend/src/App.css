@@ -2,5 +2,5 @@
 .App {
     min-height: 100vh;
     display: flex;
-    background-image: linear-gradient(to bottom, #808080, #000000);
+    /* background-image: linear-gradient(to bottom, #808080, #000000); */
 }
