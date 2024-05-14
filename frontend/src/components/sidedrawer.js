@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Box,Tooltip,Button,Text,Menu,MenuButton, useDisclosure, useToast} from "@chakra-ui/react";
 import {BellIcon,ChevronDownIcon} from "@chakra-ui/icons"
@@ -67,7 +68,7 @@ function SideDrawer(){
                 }
             }
             const {data} = await axios.post("http://localhost:8001/api/chat",{userId},config);
-
+            // setChats([...chats]);
             setSelectedChat(data);
             setLoadingChat(false);
             onClose()

@@ -17,8 +17,8 @@ const Chat = () => {
                 padding="10px"
             >
                 {user && (
-                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure MyChats stays on extreme left */}
-                        <MyChats />
+                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure Chatbox stays on extreme right */}
+                        <MyChats/>
                     </Box>
                 )}
                 {user && (
