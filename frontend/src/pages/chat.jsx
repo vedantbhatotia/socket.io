@@ -3,9 +3,11 @@ import SideDrawer from "../components/sidedrawer";
 import MyChats from "../components/mychats";
 import { Box } from "@chakra-ui/react";
 import Chatbox from "../components/chatbox";
+import { useState } from "react";
 
 const Chat = () => {
     const { user } = ChatState();
+    const [fetchAgain,setFetchAgain] = useState(false);
     return (
         <div style={{ width: "100%" }}>
             {user && <SideDrawer />}
@@ -16,15 +18,9 @@ const Chat = () => {
                 height="91.5vh" 
                 padding="10px"
             >
+                {user && <MyChats fetchAgain={fetchAgain}/>}
                 {user && (
-                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure Chatbox stays on extreme right */}
-                        <MyChats/>
-                    </Box>
-                )}
-                {user && (
-                    <Box flex="0 0 auto"> {/* Set flex to auto to ensure Chatbox stays on extreme right */}
-                        <Chatbox />
-                    </Box>
+                <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                 )}
             </Box>
         </div>

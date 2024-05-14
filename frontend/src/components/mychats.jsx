@@ -7,8 +7,8 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./chatloading";
 import { getSender } from "../chatlogics";
 import "../Mychats.css"; // Import the CSS file
-
-function MyChats() {
+import GroupChatModal from "./groupchatmodal";
+function MyChats({fetchAgain}) {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
 
@@ -33,17 +33,19 @@ function MyChats() {
       setChats([...chats]);
     }
   }, [chats]);
-  
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <div className="myChatsContainer">
       <div className="myChatsHeader">
         <h2>My Chats</h2>
-        <button className="newGroupChatButton">New Group Chat</button>
+        <GroupChatModal>
+          <button className="newGroupChatButton">New Group Chat</button>
+        </GroupChatModal>
       </div>
       <div className="chatsListContainer">
         {chats ? (
@@ -61,14 +63,14 @@ function MyChats() {
                     ? getSender(loggedUser, chat.users)
                     : chat.chatName}
                 </div>
-                {/* {chat.latestMessage && (
+                {chat.latestMessage && (
                   <div className="chatLatestMessage">
                     <strong>{chat.latestMessage.sender.name}: </strong>
                     {chat.latestMessage.content.length > 50
                       ? chat.latestMessage.content.substring(0, 51) + "..."
                       : chat.latestMessage.content}
                   </div>
-                )} */}
+                )}
               </div>
             ))}
           </div>
