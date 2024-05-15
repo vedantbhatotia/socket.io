@@ -26,13 +26,13 @@ function MyChats({fetchAgain}) {
       console.error("Failed to load the chats", error);
     }
   };
-  useEffect(() => {
-    // Re-fetch chats or update UI whenever the chats array changes
-    if (chats) {
-      // Custom logic or simply re-render by setting state
-      setChats([...chats]);
-    }
-  }, [chats]);
+  // useEffect(() => {
+  //   // Re-fetch chats or update UI whenever the chats array changes
+  //   if (chats) {
+  //     // Custom logic or simply re-render by setting state
+  //     setChats([...chats]);
+  //   }
+  // }, [chats]);
 
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
