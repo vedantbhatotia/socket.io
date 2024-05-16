@@ -1,7 +1,17 @@
 const asyncHandler = require("express-async-handler");
 const Message = require('../models/MessageModel');
 const User = require('../models/UserModel')
-const Chat = require('../models/chatModel')
+const Chat = require('../models/chatModel');
+const allMessages = asyncHandler(async(req,res)=>{
+  try {
+    const messages = await Message.find({ chat: req.params.chatId })
+      .populate("sender", "name pic email")
+      .populate("chat");
+    res.json(messages);
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
 const sendMessage = asyncHandler(async (req, res) => {
     const { content, chatId } = req.body;
     console.log(content, chatId);
@@ -39,4 +49,4 @@ const sendMessage = asyncHandler(async (req, res) => {
     }
   });
   
-module.exports = {sendMessage };
+module.exports = {sendMessage,allMessages};
