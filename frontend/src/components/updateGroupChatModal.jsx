@@ -13,7 +13,7 @@ import UserListItem from "./userlistitem";
 import { useToast } from "@chakra-ui/react";
 import { Input,FormControl } from "@chakra-ui/react";
 import axios from "axios";
-function UpdateGroupChatModal({fetchAgain,setFetchAgain}){
+function UpdateGroupChatModal({fetchAgain,setFetchAgain,fetchMessages}){
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { selectedChat, setSelectedChat, user,} =ChatState();
     const [groupChatName, setGroupChatName] = useState();
