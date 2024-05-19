@@ -1,8 +1,20 @@
 {
+  "name": "project-root",
+  "version": "1.0.0",
+  "private": true,
   "dependencies": {
     "jsonwebtoken": "^9.0.2",
     "react-router-dom": "^6.23.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
+  },
+  "scripts": {
+    "install:all": "npm install --legacy-peer-deps --prefix backend && npm install --legacy-peer-deps --prefix frontend",
+    "build": "npm run install:all && npm run build --prefix frontend",
+    "start": "npm start --prefix backend",
+    "dev": "npm run dev --prefix backend"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
