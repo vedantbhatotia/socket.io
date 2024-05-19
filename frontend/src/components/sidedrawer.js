@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Box, Tooltip, Button, Text, Menu, MenuButton, useDisclosure, useToast, Avatar, MenuItem, MenuList, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, Input, DrawerContent, Spinner } from "@chakra-ui/react";
+import { 
+  Box, Tooltip, Button, Text, Menu, MenuButton, 
+  useDisclosure, useToast, Avatar, MenuItem, MenuList, 
+  Drawer, DrawerBody, DrawerHeader, DrawerOverlay, 
+  Input, DrawerContent, Spinner 
+} from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { ChatState } from "../context/chatProvider";
 import ProfileModal from "./profilemodal";
@@ -7,13 +12,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ChatLoading from "./chatloading";
 import UserListItem from "./userlistitem";
+import { getSender } from "../chatlogics";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user, setSelectedChat, chats, setChats, notification, setNotification } = ChatState();
   const history = useNavigate();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,7 +52,7 @@ function SideDrawer() {
       setSearchResult(data);
     } catch (err) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load Search Results",
         status: "error",
         duration: 5000,
@@ -72,7 +78,7 @@ function SideDrawer() {
       onClose();
     } catch (err) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Access Chat",
         status: "error",
         duration: 5000,
@@ -109,6 +115,22 @@ function SideDrawer() {
             <MenuButton p={1}>
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
+            <MenuList>
+              {!notification.length && "No New Messages"}
+              {notification.map(notif => (
+                <MenuItem 
+                  key={notif._id} 
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat 
+                    ? `New Message in ${notif.chat.chatName}` 
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
             <Menu>
               <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
                 <Avatar

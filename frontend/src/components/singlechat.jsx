@@ -13,7 +13,7 @@ const ENDPOINT = 'http://localhost:8001';
 var socket, selectedChatCompare;
 
 function SingleChat({ fetchAgain, setFetchAgain }) {
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { user, selectedChat, setSelectedChat, chats, setChats, notification, setNotification } = ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -43,7 +43,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       socket.emit("join chat", selectedChat._id);
     } catch (err) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: "Failed to Load the Messages",
         status: "error",
         duration: 5000,
@@ -75,7 +75,10 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   useEffect(() => {
     socket.on('message received', (newMessageReceived) => {
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-        // notify
+        if (!notification.some(n => n._id === newMessageReceived._id)) {
+          setNotification([newMessageReceived, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
         updateChats(newMessageReceived);
@@ -113,7 +116,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
         updateChats(data);
       } catch (err) {
         toast({
-          title: "Error Occured!",
+          title: "Error Occurred!",
           description: "Failed to Send the Message",
           status: "error",
           duration: 5000,
